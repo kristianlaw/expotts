@@ -1,15 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component, useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import Constants from 'expo-constants'
+import * as Speech from 'expo-speech';
 
 export default function App() {
-  return (
+// Ei tarvitse extends React.Componenttia tai render{ return() } toimiaakseen.
+const [tts, setTTS] = useState('');
+
+  const speak = () => {
+    var thingToSay = tts;
+    Speech.speak(thingToSay);
+  }
+
+
+    return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <TextInput style={styles.textinput} placeholder='Kirjoita teksti jonka haluat kuulla'
+      onChangeText={tts => setTTS(tts)}
+      value={tts}/>
+      <Button title="Paina" onPress={speak} />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -18,4 +32,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textinput: {
+  marginTop: 40,
+  width: 275,
+  borderWidth: 1,
+},
 });
